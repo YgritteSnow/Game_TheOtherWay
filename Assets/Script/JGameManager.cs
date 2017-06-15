@@ -6,6 +6,7 @@ public class JGameManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+		InitScene();
 		InitAllMirror();
 	}
 	
@@ -14,9 +15,17 @@ public class JGameManager : MonoBehaviour {
 		
 	}
 
+	private void InitScene()
+	{
+		GameObject mirror_right = GameObject.Find("root_right");
+		Vector3 scale = new Vector3(JCameraAdapter.Instance.worldWidth / 2, JCameraAdapter.Instance.worldHeight, 1);
+		mirror_right.transform.localScale = scale;
+		mirror_right.transform.position = new Vector3(JCameraAdapter.Instance.worldWidth / 2 / 2, 0, 0);
+	}
+
 	private void InitAllMirror()
 	{
-		GameObject right = GameObject.Find("mirror_right");
+		GameObject right = GameObject.Find("root_right");
 		right.GetComponent<MirrorBehavior>().SetMirror(true);
 		foreach(Transform g in right.transform)
 		{
@@ -29,7 +38,7 @@ public class JGameManager : MonoBehaviour {
 
 		GameObject left = Instantiate(right);
 		Vector3 mirror_map = new Vector3(-1, 1, 1);
-		left.name = "mirror_right";
+		left.name = "root_right";
 		Vector3 pos = left.transform.position;
 		pos.Scale(mirror_map);
 		left.transform.position = pos;

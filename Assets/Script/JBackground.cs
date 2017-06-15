@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class JBackground : MirrorBehavior
 {
-	
 	// Update is called once per frame
 	void Update () {
 		

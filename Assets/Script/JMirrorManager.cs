@@ -4,13 +4,58 @@ using UnityEngine;
 
 public abstract class MirrorBehavior : MonoBehaviour
 {
+	#region Switch between left mirror and right mirror
+	public static string SwitchName(bool mirror, string originName)
+	{
+		return mirror ? originName.Replace("left", "right") : originName.Replace("right", "left");
+	}
+	public static string SwitchName(string originName)
+	{
+		if (originName.Contains("left"))
+		{
+			return originName.Replace("left", "right");
+		}else
+		{
+			return originName.Replace("right", "left");
+		}
+	}
+	public static int SwitchIndex(bool mirror)
+	{
+		return mirror ? 0 : 1;
+	}
+	#endregion
+
+	#region Find Mirror Sibling
+	public static bool IsRootObj(string name)
+	{
+		return name == "root_left" || name == "root_right";
+	}
+	public static GameObject GetMirrorObj(GameObject obj)
+	{
+		Stack<string> name_stack = new Stack<string>();
+		while (obj && !IsRootObj(obj.name))
+		{
+			name_stack.Push(obj.name);
+			obj = obj.transform.parent.gameObject;
+		}
+		if (!obj)
+			return null;
+
+		GameObject parentObj = GameObject.Find(SwitchName(obj.name));
+		while (name_stack.Count != 0)
+		{
+			parentObj = parentObj.transform.Find(name_stack.Pop()).gameObject;
+		}
+		return parentObj;
+	}
+	#endregion
+
+	//--
 	public bool m_curMirror;
 	public void SetMirror(bool right)
 	{
-		if(m_curMirror != right)
-		{
-			m_curMirror = right;
-		}
+		m_curMirror = right;
+		gameObject.name = SwitchName(m_curMirror, gameObject.name);
 		OnMirror();
 	}
 	public void ToggleMirror()
