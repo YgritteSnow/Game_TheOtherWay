@@ -3,11 +3,18 @@
 	Properties
 	{
 		_MainTex ("Texture", 2D) = "white" {}
+		_Transparent("Transparent", Range(0, 1)) = 1
 	}
 	SubShader
 	{
 		// No culling or depth
+		Lighting Off
 		Cull Off ZWrite Off ZTest Always
+		Blend SrcAlpha OneMinusSrcAlpha
+		Tags{
+			"Queue" = "Transparent"
+			"RenderType" = "Transparent"
+		}
 
 		Pass
 		{
@@ -38,6 +45,8 @@
 			}
 			
 			sampler2D _MainTex;
+			float4 _MainTex_ST;
+			float _Transparent;
 
 			// pivot mapping
 			float2 mapping(float2 iuv)
@@ -52,7 +61,9 @@
 			{
 				clip(0.5 - distance(i.uv - 0.5, float2(0,0)));
 				float2 uv = mapping(i.uv);
-				float4 col = tex2D(_MainTex, uv);
+				float2 new_uv = TRANSFORM_TEX(uv, _MainTex);
+				half4 col = tex2D(_MainTex, new_uv);
+				col.a = _Transparent;
 				return col;
 			}
 			ENDCG

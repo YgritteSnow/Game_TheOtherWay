@@ -5,11 +5,18 @@
 		_MainTex("Texture", 2D) = "white" {}
 		_TexRotate("TexRotate", Range(0,3.14)) = 0
 		_LayoutRotate("LayoutRotate", Range(0,3.14)) = 0
+		_Transparent("Transparent", Range(0, 1)) = 1
 	}
 		SubShader
 	{
+		Tags{
+			"Queue" = "Transparent"
+			"RenderType" = "Transparent"
+		}
 		// No culling or depth
+		Lighting Off
 		Cull Off ZWrite Off ZTest Always
+		Blend SrcAlpha OneMinusSrcAlpha
 
 		Pass
 	{
@@ -40,8 +47,10 @@
 	}
 
 	sampler2D _MainTex;
+	float4 _MainTex_ST;
 	float _TexRotate;
 	float _LayoutRotate;
+	float _Transparent;
 
 	// quad mapping
 	float2 mapping(float2 iuv)
@@ -61,7 +70,9 @@
 	fixed4 frag(v2f i) : SV_Target
 	{
 		float2 uv = mapping(i.uv);
-		float4 col = tex2D(_MainTex, uv);
+		float2 new_uv = TRANSFORM_TEX(uv, _MainTex);
+		half4 col = tex2D(_MainTex, new_uv);
+		col.a = _Transparent;
 		return col;
 	}
 		ENDCG
