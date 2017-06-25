@@ -79,6 +79,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\JAudioAnalysis.cs" />
+    <Compile Include="Assets\JEnemySpawn.cs" />
+    <Compile Include="Assets\JMove.cs" />
     <Compile Include="Assets\JParamAnimate.cs" />
     <Compile Include="Assets\JSpriteMove.cs" />
     <Compile Include="Assets\Script\Camera\JCamera.cs" />

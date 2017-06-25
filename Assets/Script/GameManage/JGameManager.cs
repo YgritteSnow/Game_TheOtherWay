@@ -25,7 +25,6 @@ public class JGameManager : MonoBehaviour {
 	private void InitAllMirror()
 	{
 		GameObject right = GameObject.Find("root_right");
-		Debug.Log(right.transform.parent);
 		right.GetComponent<MirrorBehavior>().SetMirror(true);
 		foreach(Transform g in right.transform)
 		{

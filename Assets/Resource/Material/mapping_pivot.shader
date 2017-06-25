@@ -63,7 +63,7 @@
 				float2 uv = mapping(i.uv);
 				float2 new_uv = TRANSFORM_TEX(uv, _MainTex);
 				half4 col = tex2D(_MainTex, new_uv);
-				col.a = _Transparent;
+				col.a *= _Transparent;
 				return col;
 			}
 			ENDCG
