@@ -24,7 +24,7 @@ public class JEnemySpawn : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		m_stampWidth = new int[m_enemyParam.Length];
-		int spec_len = JAudioAnalysis.Instance().SampleSpectrum.Length;
+		int spec_len = JAudioAnalysis_smooth.Instance().SampleSpectrum.Length;
 		m_maxX = Mathf.Log(spec_len);
 	}
 	
@@ -50,7 +50,7 @@ public class JEnemySpawn : MonoBehaviour {
 		float[] enemy_max = new float[m_enemyParam.Length];
 		int[] enemy_max_idx = new int[m_enemyParam.Length];
 		int cur_enemy_idx = 0;
-		float[] spec = JAudioAnalysis.Instance().SampleSpectrum;
+		float[] spec = JAudioAnalysis_smooth.Instance().SampleSpectrum;
 
 		int allmax_idx = 0;
 		for (int idx = 0; idx < spec.Length; ++idx)
@@ -105,7 +105,7 @@ public class JEnemySpawn : MonoBehaviour {
 
 	private void DebugDrawSpectrum()
 	{
-		float[] spec = JAudioAnalysis.Instance().SampleSpectrum;
+		float[] spec = JAudioAnalysis_smooth.Instance().SampleSpectrum;
 		int draw_enemy_idx = 0;
 		for (int i = 1; i < spec.Length - 1; i++)
 		{

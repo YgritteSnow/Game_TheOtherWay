@@ -10,14 +10,6 @@ namespace WAudioAnalysis
 		public AudioRawDataCache(AudioClip clip)
 		{
 			float[] samples = new float[clip.samples * clip.channels];
-			Debug.Log("samples=" + clip.samples
-				+ "\n channels=" + clip.channels
-				+ "\n frequency=" + clip.frequency
-				+ "\n length=" + clip.length
-				+ "\n loadType=" + clip.loadType
-				+ "\n loadState=" + clip.loadState
-				+ "\n preloadAudioData=" + clip.preloadAudioData
-				);
 			clip.GetData(samples, 0);
 			rawData = samples;
 		}
@@ -52,6 +44,10 @@ namespace WAudioAnalysis
 				}
 			}
 			size = new_size + 1;
+		}
+		public float GetData(int cacheIdx, int spectrumIdx)
+		{
+			return spectrumCache[cacheIdx, spectrumIdx];
 		}
 		public float[,] spectrumCache;
 		public int size;
@@ -193,7 +189,83 @@ namespace WAudioAnalysis
 	#region Cluster
 	public class Cluster
 	{
-		public Cluster() { }
+		public static bool Analysis(ref float[] data, int count, out float[] result, out int[] classify)
+		{
+			result = new float[count];
+			classify = new int[data.Length];
+
+			float d_min, d_max;
+			FindMinMax(ref data, out d_min, out d_max);
+			for(int i = 0; i < result.Length; ++i)
+			{
+				result[i] = (d_max - d_min) * (i * 2 + 1) / 6;
+			}
+
+			for(int i = 0; i < classify.Length; ++i)
+			{
+				classify[i] = -1;
+			}
+
+			int max_loop = 100; // max loop times
+			bool flag_change = true; // if is still changing
+			while (--max_loop > 0 && flag_change)
+			{
+				// 为每个元素分类
+				for(int data_idx = 0; data_idx < data.Length; ++data_idx)
+				{
+					int min_idx = 0;
+					float min_distance = 10000;
+					for(int cluster_idx = 0; cluster_idx < result.Length; ++cluster_idx)
+					{
+						float new_distance = Mathf.Abs(data[data_idx] - result[cluster_idx]);
+						if(new_distance < min_distance)
+						{
+							min_distance = new_distance;
+							min_idx = cluster_idx;
+						}
+					}
+					if (min_idx != classify[data_idx])
+					{
+						classify[data_idx] = min_idx;
+						flag_change = true;
+					}
+				}
+
+				// 重新计算中心
+				int[] result_count = new int[result.Length];
+				for (int cluster_idx = 0; cluster_idx < result.Length; ++cluster_idx)
+				{
+					result[cluster_idx] = 0;
+					result_count[cluster_idx] = 0;
+				}
+				for (int data_idx = 0; data_idx < classify.Length; ++data_idx)
+				{
+					result[classify[data_idx]] += data[data_idx];
+					result_count[classify[data_idx]]++;
+				}
+				for (int cluster_idx = 0; cluster_idx < result.Length; ++cluster_idx)
+				{
+					if (result_count[cluster_idx] != 0)
+					{
+						result[cluster_idx] /= result_count[cluster_idx];
+					}
+					Debug.Log("Loop:" + max_loop + " - " + cluster_idx + ", " + result_count[cluster_idx] + ", " + result[cluster_idx]);
+				}
+			}
+
+			return !flag_change;
+		}
+
+		static void FindMinMax(ref float[] data, out float d_min, out float d_max)
+		{
+			d_min = 10000;
+			d_max = -10000;
+			foreach (float v in data)
+			{
+				d_max = Mathf.Max(d_max, v);
+				d_min = Mathf.Min(d_min, v);
+			}
+		}
 	}
 	#endregion
 }

@@ -79,12 +79,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\JAudioAnalysis.cs" />
-    <Compile Include="Assets\JDebugBoard.cs" />
     <Compile Include="Assets\JEnemySpawn.cs" />
     <Compile Include="Assets\JMove.cs" />
     <Compile Include="Assets\JParamAnimate.cs" />
     <Compile Include="Assets\JSpriteMove.cs" />
     <Compile Include="Assets\Script\Algorithm\WAudioAnalysis.cs" />
+    <Compile Include="Assets\Script\Audio\JAudioAnalysis_maxAmp.cs" />
+    <Compile Include="Assets\Script\Audio\JAudioAnalysis_offlineRaw.cs" />
+    <Compile Include="Assets\Script\Audio\JAudioAnalysis_offlineSpectrum.cs" />
+    <Compile Include="Assets\Script\Audio\JAudioAnalysis_smooth.cs" />
+    <Compile Include="Assets\Script\Audio\JDataToTexture_cluster.cs" />
+    <Compile Include="Assets\Script\Audio\JDataToTexture_dynamic.cs" />
+    <Compile Include="Assets\Script\Audio\JDataToTexture_once.cs" />
     <Compile Include="Assets\Script\Camera\JCamera.cs" />
     <Compile Include="Assets\Script\Camera\JCameraAdapter.cs" />
     <Compile Include="Assets\Script\EventDelegate\EventDelegate.cs" />
