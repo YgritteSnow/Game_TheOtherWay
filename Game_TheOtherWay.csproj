@@ -78,16 +78,22 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Script\JBackground.cs" />
-    <Compile Include="Assets\Script\JCamera.cs" />
-    <Compile Include="Assets\Script\JCameraAdapter.cs" />
-    <Compile Include="Assets\Script\JGameManager.cs" />
-    <Compile Include="Assets\Script\JMirrorManager.cs" />
-    <Compile Include="Assets\Script\JPlayer.cs" />
-    <Compile Include="Assets\Script\JScreenAdapt.cs" />
-    <Compile Include="Assets\Script\JUIGameMain.cs" />
-    <Compile Include="Assets\Script\JUILogin.cs" />
+    <Compile Include="Assets\JAudioAnalysis.cs" />
+    <Compile Include="Assets\JDebugBoard.cs" />
+    <Compile Include="Assets\JEnemySpawn.cs" />
+    <Compile Include="Assets\JMove.cs" />
+    <Compile Include="Assets\JParamAnimate.cs" />
+    <Compile Include="Assets\JSpriteMove.cs" />
+    <Compile Include="Assets\Script\Algorithm\WAudioAnalysis.cs" />
+    <Compile Include="Assets\Script\Camera\JCamera.cs" />
+    <Compile Include="Assets\Script\Camera\JCameraAdapter.cs" />
+    <Compile Include="Assets\Script\EventDelegate\EventDelegate.cs" />
+    <Compile Include="Assets\Script\GameManage\JGameManager.cs" />
+    <Compile Include="Assets\Script\GameManage\JMirrorManager.cs" />
+    <Compile Include="Assets\Script\NPC\JBackground.cs" />
+    <Compile Include="Assets\Script\Player\JPlayer.cs" />
     <Compile Include="Assets\Script\PostProcessing\JHalfMask.cs" />
+    <Compile Include="Assets\Script\UI\JUILogin.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Resource\Material\PostProcessing\blur.shader" />

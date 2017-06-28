@@ -12,7 +12,10 @@ public class JHalfMask : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		if (!m_maskTex || !m_blurMat)
-			Debug.Log("MaskTexture not found!!!");
+		{
+			Debug.LogError("MaskTexture not found!!!");
+		}
+
 		m_maskMat.SetTexture("_Mask", m_maskTex);
 		m_blur_step_x = 1.0f / Screen.width;
 		m_blur_step_y = 1.0f / Screen.height;
