@@ -38,6 +38,12 @@ public class JAudioAnalysis_offlineSpectrum : MonoBehaviour
 		{
 			return;
 		}
+
+		DrawByLine();
+	}
+
+	void DrawByLine()
+	{
 		float last_draw_x = -1;
 		for (int x = 0; x < JAudioAnalysis.spectrumSize; ++x)
 		{

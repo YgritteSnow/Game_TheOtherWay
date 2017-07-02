@@ -193,12 +193,14 @@ namespace WAudioAnalysis
 		{
 			result = new float[count];
 			classify = new int[data.Length];
+			bool[] flag = new bool[count];
 
 			float d_min, d_max;
 			FindMinMax(ref data, out d_min, out d_max);
 			for(int i = 0; i < result.Length; ++i)
 			{
 				result[i] = (d_max - d_min) * (i * 2 + 1) / 6;
+				flag[i] = true;
 			}
 
 			for(int i = 0; i < classify.Length; ++i)
@@ -210,8 +212,9 @@ namespace WAudioAnalysis
 			bool flag_change = true; // if is still changing
 			while (--max_loop > 0 && flag_change)
 			{
+				flag_change = false;
 				// 为每个元素分类
-				for(int data_idx = 0; data_idx < data.Length; ++data_idx)
+				for (int data_idx = 0; data_idx < data.Length; ++data_idx)
 				{
 					int min_idx = 0;
 					float min_distance = 10000;
@@ -226,6 +229,7 @@ namespace WAudioAnalysis
 					}
 					if (min_idx != classify[data_idx])
 					{
+						//if(max_loop <= 98)Debug.Log("Changed:" + max_loop + ", " + data_idx + " - " + classify[data_idx] + ":" + min_idx);
 						classify[data_idx] = min_idx;
 						flag_change = true;
 					}
@@ -249,10 +253,9 @@ namespace WAudioAnalysis
 					{
 						result[cluster_idx] /= result_count[cluster_idx];
 					}
-					Debug.Log("Loop:" + max_loop + " - " + cluster_idx + ", " + result_count[cluster_idx] + ", " + result[cluster_idx]);
 				}
 			}
-
+			Debug.Log("Result:" + max_loop + ", " + flag_change);
 			return !flag_change;
 		}
 

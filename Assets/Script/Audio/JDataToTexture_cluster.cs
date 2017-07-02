@@ -14,8 +14,11 @@ public class JDataToTexture_cluster : MonoBehaviour
 	int[,] m_spectrumColorIdx;
 
 	// Use this for initialization
-	void Start () {
-		
+	void Start ()
+	{
+		mat = GetComponent<MeshRenderer>().material;
+		m_texture = new Texture2D(width, height, TextureFormat.ARGB32, true);
+		mat.SetTexture("_MainTex", m_texture);
 	}
 	
 	// Update is called once per frame
@@ -45,7 +48,7 @@ public class JDataToTexture_cluster : MonoBehaviour
 			}
 			float[] cluster;
 			int[] classify;
-			WAudioAnalysis.Cluster.Analysis(ref data_cache, 2, out cluster, out classify);
+			WAudioAnalysis.Cluster.Analysis(ref data_cache, 3, out cluster, out classify);
 			for (int cache_idx = 0; cache_idx < cacheSize; ++cache_idx)
 			{
 				m_spectrumColorIdx[cache_idx, spectrum_idx] = classify[cache_idx];
@@ -75,7 +78,7 @@ public class JDataToTexture_cluster : MonoBehaviour
 			for (int y = 0; y < audioSpectrumCache.size && y < height; ++y)
 			{
 				float amp = audioSpectrumCache.spectrumCache[y, x];
-				Color c = m_spectrumColorIdx[y, x] == 0 ? Color.red : (m_spectrumColorIdx[y, x] == 1 ? Color.green : Color.blue);
+				Color c = m_spectrumColorIdx[y, x] == 0 ? Color.blue : (m_spectrumColorIdx[y, x] == 1 ? Color.green : Color.red);
 				for (int step_x = last_draw_x < 0 ? 0 : last_draw_x; step_x <= draw_x; ++step_x)
 				{
 					m_texture.SetPixel(step_x, y, c);

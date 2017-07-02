@@ -23,23 +23,10 @@ public class JAudioAnalysis : MonoBehaviour {
 	private float m_ampMin = 10000;
 	private float m_ampMax = -10000;
 
-	// Analysis 2: 将所有频率在时间上平滑，获取时间上的突变
-	public bool[] SpikeSpectrum { get{ return m_spikeSpectrum; } }
-	private int m_spectrumSmoothCount = 2;
-	private float m_spectrumSpikeRatio = 0.95f;
-	private bool[] m_spikeSpectrum = new bool[spectrumSize];
-	public WAudioAnalysis.CacheAndSmoothWithCheck[] m_spectrumSmoother = new WAudioAnalysis.CacheAndSmoothWithCheck[spectrumSize];
-
 	private void Awake()
 	{
 		GetComponent<AudioSource>().Play();
 		m_instance = this;
-
-		// Analysis 2: 将所有频率在时间上平滑，分析曲线在时间上的突变
-		for (int idx = 0; idx != m_spectrumSmoother.Length; ++idx)
-		{
-			m_spectrumSmoother[idx] = new WAudioAnalysis.CacheAndSmoothWithCheck(m_spectrumSmoothCount, m_spectrumSpikeRatio);
-		}
 	}
 
 	void Update()
@@ -53,13 +40,7 @@ public class JAudioAnalysis : MonoBehaviour {
 			m_ampMax = Mathf.Max(m_ampMax, s[i]);
 		}
 
-		// Analysis 2: 将所有频率在时间上平滑，分析曲线在时间上的突变
-		for (int i = 0; i < m_spectrum.Length; i++)
-		{
-			m_spikeSpectrum[i] = m_spectrumSmoother[i].AddData(m_spectrum[i]);
-		}
-
-		DebugDrawSpectrumColor();
+		//DebugDrawSpectrumColor();
 	}
 
 	private const int m_cacheSize = 200;

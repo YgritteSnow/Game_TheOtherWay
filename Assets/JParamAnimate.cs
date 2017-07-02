@@ -18,7 +18,8 @@ public class JParamAnimate : MonoBehaviour
 		if (paramFunc==null || !m_mat)
 			return;
 
-		float param = paramFunc.Execute();
+		//float param = paramFunc.Execute();
+		float param = JAudioAnalysis_maxAmp.Instance().GetMaxAmp();
 		m_mat.SetTextureOffset("_MainTex", new Vector2(0, param * m_magnify));
 	}
 }

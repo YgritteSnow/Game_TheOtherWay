@@ -86,7 +86,7 @@ public class JEnemySpawn : MonoBehaviour {
 
 	private void SpawnBySpike()
 	{
-		bool[] spike = JAudioAnalysis.Instance().SpikeSpectrum;
+		bool[] spike = JAudioAnalysis_simpleSmooth.Instance().SpikeSpectrum;
 		for(int idx = 0; idx < spike.Length; ++idx)
 		{
 			if(spike[idx])
@@ -124,8 +124,8 @@ public class JEnemySpawn : MonoBehaviour {
 
 	private void DebugDrawSpike()
 	{
-		bool[] spike = JAudioAnalysis.Instance().SpikeSpectrum;
-		WAudioAnalysis.CacheAndSmoothWithCheck[] spec = JAudioAnalysis.Instance().m_spectrumSmoother;
+		bool[] spike = JAudioAnalysis_simpleSmooth.Instance().SpikeSpectrum;
+		WAudioAnalysis.CacheAndSmoothWithCheck[] spec = JAudioAnalysis_simpleSmooth.Instance().m_spectrumSmoother;
 		int draw_enemy_idx = 0;
 		for (int i = 1; i < spike.Length - 1; i++)
 		{
